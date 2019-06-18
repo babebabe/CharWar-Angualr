@@ -1,11 +1,10 @@
 <div class="game-playground">
   <div class="cards-playground">
     <div
-      class="row"
-      *ngFor="let rowCards of playgroundCards; let rowIndex = index"
-    >
+      class="row" 
+      *ngFor="let rowCards of playgroundCards; let rowIndex = index">
       <div
-        class="card card-in-playground"
+        class="card card-in-playground" [@shrinkOut]="'in'"
         *ngFor="let card of rowCards; let columnIndex = index"
         (click)="clickCard(rowIndex, columnIndex)"
       >

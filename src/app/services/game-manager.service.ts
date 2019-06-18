@@ -12,6 +12,7 @@ import { EmitService } from "./emit.service";
   providedIn: "root"
 })
 export class GameManagerService {
+
   public playgroundCards = [];
   public candidateCards = [];
 
@@ -20,6 +21,7 @@ export class GameManagerService {
   }
 
   private initialService() {
+
     this.playgroundCards = this.getDefaultPlaygroundCards();
     this.emitPlaygroundCardsChanged();
 
@@ -65,11 +67,11 @@ export class GameManagerService {
   clickCard(rowIndex: number, columnIndex: number) {
     console.log(
       "received click card request, rowIndex:" +
-        rowIndex +
-        ", columnIndex: " +
-        columnIndex
+      rowIndex +
+      ", columnIndex: " +
+      columnIndex
     );
-
+      
     if (this.playgroundCards[rowIndex][columnIndex] != null) {
       return;
     }
@@ -79,28 +81,25 @@ export class GameManagerService {
     this.emitCandidateCardsChanged();
 
     this.playgroundCards[rowIndex][columnIndex] = currentCandidateCard;
-    let combinedCardsIndexs = this.getSameCardsFromAround(
-      rowIndex,
-      columnIndex
-    );
+    let combinedCardsIndexs = this.getSameCardsFromAround(rowIndex, columnIndex);
+
     while (combinedCardsIndexs.length > 0) {
+
       this.combineCards(combinedCardsIndexs, rowIndex, columnIndex);
       this.emitPlaygroundCardsChanged();
+
       combinedCardsIndexs = this.getSameCardsFromAround(rowIndex, columnIndex);
     }
   }
 
-  private combineCards(
-    combinedCardsIndexs: any[],
-    rowIndex: number,
-    columnIndex: number
-  ) {
+  private combineCards(combinedCardsIndexs: any[], rowIndex: number, columnIndex: number) {
+   
     combinedCardsIndexs.forEach(index => {
       this.playgroundCards[index[0]][index[1]] = null;
     });
 
-    this.playgroundCards[rowIndex][columnIndex] =
-      this.playgroundCards[rowIndex][columnIndex] + 1;
+    this.playgroundCards[rowIndex][columnIndex] += 1;
+      
   }
 
   private getSameCardsFromAround(rowIndex: number, columnIndex: number) {
@@ -123,16 +122,11 @@ export class GameManagerService {
       const targetRowIndex = rowIndex + rowOffset;
       const targetColumnIndex = columnIndex + columnOffset;
 
-      if (
-        this.isOutofPlaygroundRange(targetRowIndex) ||
-        this.isOutofPlaygroundRange(targetColumnIndex)
-      ) {
+      if (this.isOutofPlaygroundRange(targetRowIndex) || this.isOutofPlaygroundRange(targetColumnIndex)) {
         return;
       }
 
-      if (
-        this.playgroundCards[targetRowIndex][targetColumnIndex] === centerCard
-      ) {
+      if (this.playgroundCards[targetRowIndex][targetColumnIndex] === centerCard) {
         result.push([targetRowIndex, targetColumnIndex]);
       }
     });
